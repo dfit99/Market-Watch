@@ -38,5 +38,22 @@ class UserTest < ActiveSupport::TestCase
     assert user.valid?
   end
 
+  test "There cannot be less one available user" do
+    dave = User.create(name: 'dave', password: 'secret', password_confirmation: 'secret')
+
+    assert_raise "Can't delete last user" do
+      dave.destroy
+    end
+   
+    try{
+      dave.destroy
+    }
+   
+    catch{
+    assert_equal User.count, 1
+    }
+  end 
+   
+
   
 end

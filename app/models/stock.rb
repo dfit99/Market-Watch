@@ -8,7 +8,11 @@ class Stock < ActiveRecord::Base
 
     #attr_accessor :stock_symbol
   def price
-      YahooFinance::get_quotes( YahooFinance::StandardQuote, self.stock_symbol )[self.stock_symbol.upcase].ask
+      YahooFinance::get_quotes( YahooFinance::StandardQuote, self.stock_symbol )[self.stock_symbol.upcase].lastTrade
+  end
+
+  def historical_price(days_ago)
+    (YahooFinance::get_historical_quotes_days( self.stock_symbol, days_ago ).last.last.to_f)
   end
 end
 
